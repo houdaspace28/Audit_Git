@@ -98,8 +98,8 @@ router.get("/:nom_entreprise", async (req, res) => {
   doc.moveDown(1);
   
 
-  const score = entreprise?.scores[i]?.score_value || 'Non disponible';
-  const feedback = entreprise?.feedbacks[i]?.feedback_value || 'Non disponible';
+  const score = entreprise?.scores.get(piliers[i]) || 'Non disponible';
+      const feedback = entreprise?.feedbacks.get(piliers[i]) || 'Non disponible';
   doc.fontSize(20).text(`Votre score en ce pilier: ${score}`);
   doc.moveDown(0.5);
   doc.fontSize(20).text(`Notre feedback sur ce pilier: ${feedback}`);

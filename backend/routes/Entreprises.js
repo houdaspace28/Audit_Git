@@ -71,10 +71,13 @@ router.post("/:pilier_nom/:nom_entreprise", async (req, res) => {
 
     const choice_qsts = req.body[`choice_qsts_${pilierIndex}`];
     const open_qsts = req.body[`open_qsts_${pilierIndex}`];
+    const scores = req.body.scores;
+
     
 
     console.log(`choice_qsts_${pilierIndex}:`, choice_qsts);
     console.log(`open_qsts_${pilierIndex}:`, open_qsts);
+    console.log(`scores:`, scores);
     
 
 
@@ -89,6 +92,10 @@ router.post("/:pilier_nom/:nom_entreprise", async (req, res) => {
           entreprise[`choice_qsts_${pilierIndex}`][index].answer = answer;
         }
       });
+
+      Object.keys(scores).forEach((pilier) => {
+        entreprise.scores.set(pilier, scores[pilier]);
+      });
     
      
       await entreprise.save();
@@ -100,6 +107,30 @@ router.post("/:pilier_nom/:nom_entreprise", async (req, res) => {
     }
   });
 
+  router.put("/:nom_entreprise/feedbacks", async (req, res) => {
+    const { nom_entreprise } = req.params;
+    const { feedbacks } = req.body;
+  
+    try {
+      await connectDB();
+      const entreprise = await EntrepriseModel.findOne({ nom_entreprise });
+      if (!entreprise) {
+        return res.status(404).json({ message: "Entreprise not found" });
+      }
+  
+      // Update feedbacks
+      Object.keys(feedbacks).forEach((pilier) => {
+        entreprise.feedbacks.set(pilier, feedbacks[pilier]);
+      });
+  
+      await entreprise.save();
+      res.status(200).json({ message: "Feedbacks updated successfully", entreprise });
+    } catch (error) {
+      console.error("Error updating feedbacks:", error);
+      res.status(500).json({ message: "Server error", error });
+    }
+  });
+  
 export default router;
 
 

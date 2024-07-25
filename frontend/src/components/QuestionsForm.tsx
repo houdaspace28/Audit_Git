@@ -77,7 +77,11 @@ const QuestionsForm = ({ pilier_nom, onPilierComplete }: Props) => {
     onPilierComplete(score);
     const dataToPost = {
       [`choice_qsts_${pilierData?.pilier_id}`]: choices,
-      [`open_qsts_${pilierData?.pilier_id}`]: openAnswers, 
+      [`open_qsts_${pilierData?.pilier_id}`]: openAnswers,
+      scores: {
+        ...scores,
+        [pilier_nom]: score
+      } 
     };
 
     console.log("Data to be posted:", dataToPost);

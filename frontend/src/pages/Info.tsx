@@ -34,13 +34,12 @@ const Info = () => {
 
   const onSubmit = async (data: FormData) => {
     try {
-      const response = await axios.post(`${link_server}`, data);
+      const response = await axios.post(`${link_server}info`, data);
       console.log(response.data);
       setNomEntreprise(data.nom_entreprise);
       setIsSubmitted(true);
     } catch (error) {
       console.error(error);
-      alert('Erreur de création de l\'entreprise');
     }
   };
 

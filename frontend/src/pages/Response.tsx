@@ -5,11 +5,13 @@ import { getCorrectFeedback } from '../functions/getfeedback';
 import { Legend, PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart } from 'recharts';
 import axios from "axios";
 import { link_server } from '../../someinfo';
+import { useEffect } from 'react';
 
 
 const Response = () => {
   const { scores, nomEntreprise } = useScores();
   const piliers = ["Données", "Reporting", "SiteWeb", "Automatisation", "Messages"];
+  const feedbacks: Record<string, string> = {};
   const data= [
     {
       "pilier": "Données",
@@ -37,6 +39,23 @@ const Response = () => {
       "fullMark": 25,
     },
   ];
+
+  piliers.forEach(pilier => {
+    feedbacks[pilier] = getCorrectFeedback(scores[pilier], pilier);
+  });
+  
+  useEffect(() => {
+    const postFeedbacks = async () => {
+      try {
+        await axios.put(`${link_server}entreprises/${nomEntreprise}/feedbacks`, { feedbacks });
+      } catch (error) {
+        console.error("Error posting feedbacks:", error);
+      }
+    };
+
+    postFeedbacks();
+    console.log("Feedbacks posted");
+  }, [feedbacks, nomEntreprise]);
 
   const handleDownload = async () => {
     try {

@@ -30,27 +30,6 @@ const OpenQuestionSchema = new mongoose.Schema({
     }
   }, { _id: false });
 
-  const ScoreSchema = new mongoose.Schema({
-    score_alias:{
-      type: String,
-      required: true
-    },
-    score_value:{
-      type: Number,
-      required: true
-    }  
-  },{_id: false });
-
-  const FeedbackSchema = new mongoose.Schema({
-    feedback_alias:{
-      type: String,
-      required: true
-    },
-    feedback_value:{
-      type: String,
-      required: true
-    }
-  },{_id: false });
 
 
   
@@ -63,25 +42,27 @@ const EntrepriseSchema = new mongoose.Schema({
     nombre_emp: Number,
     site_url: String,
     scores: {
-      type: [ScoreSchema],
-      default:[
-          {score_alias:"Données", score_value:0},
-          {score_alias:"Reporting", score_value:0},
-          {score_alias:"SiteWeb", score_value:0},
-          {score_alias:"Automatisation", score_value:0},
-          {score_alias:"Messages", score_value:0}
-      ]
+      type: Map,
+      of: Number,
+      default: {
+        "Données": 0,
+        "Reporting": 0,
+        "SiteWeb": 0,
+        "Automatisation": 0,
+        "Messages": 0
+      }
     },
-  feedbacks:{
-      type: [FeedbackSchema],
-      default:[
-          {feedback_alias:"Données_Feedback", feedback_value:""},
-          {feedback_alias:"Reporting_Feedback", feedback_value:""},
-          {feedback_alias:"SiteWeb_Feedback", feedback_value:""},
-          {feedback_alias:"Automatisation_Feedback", feedback_value:""},
-          {feedback_alias:"Messages_Feedback", feedback_value:""}
-      ]
-  },
+    feedbacks: {
+      type: Map,
+      of: String,
+      default: {
+        "Données": "",
+        "Reporting": "",
+        "SiteWeb": "",
+        "Automatisation": "",
+        "Messages": ""
+      }
+    },
     open_qsts_1:{
      type:[OpenQuestionSchema],
      default:[
