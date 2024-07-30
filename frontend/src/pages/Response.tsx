@@ -6,6 +6,7 @@ import { Legend, PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart }
 import axios from "axios";
 import { link_server } from '../../someinfo';
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 
 const Response = () => {
@@ -90,6 +91,9 @@ const Response = () => {
         <VscOutput size={35} color='white'/>
         <h2 className="font-medium text-3xl text-white">Vos Résultats</h2>
         </div>
+        <Link to={`/entreprises/details/${nomEntreprise}`}>
+            <button className='border-2 border-white text-white font-medium hover:text-[#ffcc33] hover:bg-white' >Details de votre audit</button>
+        </Link>
         <button className='border-2 border-white text-white font-medium hover:text-[#ffcc33] hover:bg-white' onClick={handleDownload}>Télécharger le rapport</button>
       </header>
       <div className="flex flex-col items-center justify-center gap-10 ">

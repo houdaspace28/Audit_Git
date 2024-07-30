@@ -30,6 +30,17 @@ app.post("/info",(req,res)=>{
 
 });
 
+app.get("/details/:nom_entreprise",(req,res)=>{
+  const {nom_entreprise} = req.params;
+  EntrepriseModel.findOne({nom_entreprise: nom_entreprise}).then(entreprise=>{
+    if(entreprise){
+      res.json(entreprise).status(200);
+    }else{
+      res.status(404).json({message:"Entreprise non trouvée"})
+    }
+  })
+})
+
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
   });

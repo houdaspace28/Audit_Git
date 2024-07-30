@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get("/:pilier_nom/:nom_entreprise", async (req, res) => {
   const { pilier_nom, nom_entreprise } = req.params;
-
+  
   try {
     await connectDB();
     const entreprise = await EntrepriseModel.findOne({ nom_entreprise });

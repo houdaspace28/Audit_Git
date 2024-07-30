@@ -33,6 +33,7 @@ const Info = () => {
   const {register, handleSubmit, formState: {errors}} = useForm<FormData>({resolver: zodResolver(schema)});
 
   const onSubmit = async (data: FormData) => {
+  
     try {
       const response = await axios.post(`${link_server}info`, data);
       console.log(response.data);
